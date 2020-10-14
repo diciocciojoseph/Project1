@@ -2,13 +2,13 @@
 public class TravProf {
 
     // Instance Variables
-    String travAgentID;
-    String firstName;
-    String lastName;
-    String address;
-    String phone;
-    String travelType;
-    String paymentType;
+    private String travAgentID;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String phone;
+    private String travelType;
+    private String paymentType;
     float tripCost;
     MedCond medCondInfo;
 
@@ -30,39 +30,37 @@ public class TravProf {
 
     // Get Methods
     public String getTravAgentID() {
-        return travAgentID;
+        return this.travAgentID;
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public String getPhone() {
-        return phone;
+        return this.phone;
     }
 
-    public String getTravelType() {
-        return travelType;
-    }
+    public String getTravelType() { return this.travelType; }
 
     public String getPaymentType() {
-        return paymentType;
+        return this.paymentType;
     }
 
     public float getTripCost() {
-        return tripCost;
+        return this.tripCost;
     }
 
     public MedCond getMedCondInfo() {
-        return medCondInfo;
+        return this.medCondInfo;
     }
 
     // Update Methods
