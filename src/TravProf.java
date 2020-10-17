@@ -1,4 +1,3 @@
-// This is a test
 public class TravProf {
 
     // Instance Variables
@@ -63,8 +62,8 @@ public class TravProf {
         return this.medCondInfo;
     }
 
-    // Update Methods
 
+    // Update Methods
     public void updateFirstName(String firstName) {
         this.firstName = firstName;
     }
