@@ -8,8 +8,8 @@ public class MedCond {
     public MedCond(String mdContact, String mdPhone, String algType, String illType) {
        this.mdContact = mdContact;
        this.mdPhone = mdPhone;
-       this.algType = algType;
-       this.illType = illType;
+       this.algType = algType; // (1) None, (2) Food, (3) Medication, (4) Other
+       this.illType = illType; // (1) None, (2) Heart, (3) Diabetes, (4) Asthma, (5) Other
     }
 
     public String getMdContact() {

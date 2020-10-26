@@ -1,4 +1,6 @@
-public class TravProf {
+import java.io.Serializable;
+
+public class TravProf implements Serializable {
 
     // Instance Variables
     private String travAgentID;
@@ -6,8 +8,8 @@ public class TravProf {
     private String lastName;
     private String address;
     private String phone;
-    private String travelType;
-    private String paymentType;
+    private String travelType;      // (1) Pleasure, (2) Business
+    private String paymentType;     // (1) Credit, (2) Check, (3) Debit, (4) Invoice
     float tripCost;
     MedCond medCondInfo;
 
