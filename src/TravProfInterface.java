@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.Scanner;
-import java.io.File;
 
 
 public class TravProfInterface {
@@ -18,41 +17,49 @@ public class TravProfInterface {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         TravProfInterface tpi = new TravProfInterface("TravelerDatabase.txt");
         tpi.initDB();
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to ITS, please enter your ITS ID:");
         String id = scanner.nextLine();
-        // Stores teh current agent ID
+
+        // Stores the current agent ID
         tpi.travAgentID = id;
+
         while (true){
 
             tpi.getUserChoice();
             int choice = tpi.getSelection();
+
             if (choice == 1) {
                 tpi.createNewTravProf();
-                tpi.writeToDB();
+
             } else if (choice == 2) {
                 tpi.findTravProf();
+
             } else if (choice == 3) {
                 tpi.deleteTravProf();
-                tpi.writeToDB();
+
             } else if (choice == 4) {
                 tpi.updateTravProf();
-                tpi.writeToDB();
+
             } else if (choice == 5) {
                 tpi.displayAllTravProf();
+
             } else if (choice == 6) {
                 System.out.println("Enter your Agent ID");
                 String agent = scanner.nextLine();
                 tpi.setTravAgentID(agent);
+
             } else if (choice == 0) {
+                tpi.writeToDB();
                 break;
             }
-
         }
     }
 
 
     public void getUserChoice(){
+
         // Print options
         System.out.println("(1) Enter New Traveler Profile");
         System.out.println("(2) Find Profile");
@@ -69,11 +76,15 @@ public class TravProfInterface {
 
     public void deleteTravProf(){
         boolean success = false;
+
         Scanner in = new Scanner(System.in);
         String lstName = in.nextLine();
+
         String agentID = getTravAgentID();
         TravProfDB db = getDB();
+
         success = db.deleteProfile(agentID, lstName);
+
         if (success) {
             System.out.println("Profile has been successfully deleted.");
         } else {
@@ -144,6 +155,7 @@ public class TravProfInterface {
     }
 
     public void displayTravProf(TravProf profile){
+
         // Info from TravProf
         String agentID = profile.getTravAgentID();
         String FName = profile.getFirstName();
@@ -179,14 +191,10 @@ public class TravProfInterface {
         Scanner in = new Scanner(System.in);
         System.out.println("Enter Agent ID");
         String agentID = in.nextLine();
-        TravProf temp = db.findFirstProfile();
-        while (temp != null) {
-            if (temp.getTravAgentID() == agentID) {
-                displayTravProf(temp);
-            }
-            temp = db.findNextProfile();
+        TravProfDB db = getDB();
+        for(TravProf t : db.getTravelerList()){
+            displayTravProf(t);
         }
-
     }
 
     public void writeToDB() throws IOException {
@@ -198,7 +206,6 @@ public class TravProfInterface {
     public void initDB() throws IOException, ClassNotFoundException {
         this.db = new TravProfDB(this.fileName);
         db.initializeDatabase(this.fileName);
-
     }
 
    public TravProf createNewTravProf(){
@@ -206,6 +213,7 @@ public class TravProfInterface {
         TravProfDB dB = getDB();
         String agent, fName, lName, address, phoneNum, travType, payType = "";
         float cost = 0;
+
         System.out.println("Enter traveler agent ID");
         agent = in.nextLine();
         System.out.println("Enter first name");
@@ -225,6 +233,7 @@ public class TravProfInterface {
         MedCond medical = createNewMedCond();
         TravProf traveler = new TravProf(agent, fName, lName, address, phoneNum, cost, travType, payType, medical);
         dB.insertNewProfile(traveler);
+
         return traveler;
     }
 //

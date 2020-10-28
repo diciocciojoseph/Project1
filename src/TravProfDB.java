@@ -95,4 +95,8 @@ public class TravProfDB {
             }
 
     }
+
+    public ArrayList<TravProf> getTravelerList() {
+        return travelerList;
+    }
 }
