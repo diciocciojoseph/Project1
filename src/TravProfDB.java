@@ -18,7 +18,7 @@ public class TravProfDB {
     }
 
     // Insert a TravProf object into the travelerList
-    private void insertNewProfile(TravProf profile){
+    public void insertNewProfile(TravProf profile){
         // Add the entry to travelerList, increment index and size
         this.travelerList.add(profile);
         this.currentTravelerIndex++;
@@ -27,7 +27,7 @@ public class TravProfDB {
 
     // Delete a TravProf object from the travelerList
     // Return whether the deletion was successful
-    private boolean deleteProfile(String travID, String lName){
+    public boolean deleteProfile(String travID, String lName){
         boolean deleted = false;
 
         // Search for the profile with the given ID and lName
@@ -48,16 +48,32 @@ public class TravProfDB {
         return deleted;
     }
 
-    private TravProf findFirstProfile(){
+    public TravProf findProfile(String lastName, String travAgID) {
+        TravProf resultProf = null;
+        for (int i = 0; i < this.travelerList.size(); i++) {
+            TravProf currProf = this.travelerList.get(i);
+            if (currProf.getTravAgentID().equals(travAgID) && currProf.getLastName().equals(lastName)) {
+                resultProf = currProf;
+                break;
+            }
+        }
+        return resultProf;
+    }
+
+    public TravProf findFirstProfile(){
+        this.currentTravelerIndex = 0;
         return this.travelerList.get(0);
     }
 
-    private TravProf findNextProfile(){
+    public TravProf findNextProfile(){
+        if (this.currentTravelerIndex < this.numTravelers) {
+            this.currentTravelerIndex++;
+        }
         return this.travelerList.get(this.currentTravelerIndex);
     }
 
     // Write the current contents of all traveler profiles into the file
-    private void writeAllTravProf(String fName) throws IOException{
+    public void writeAllTravProf(String fName) throws IOException{
 
         // Create an object output stream, and serialize the travelers list
             FileOutputStream f = new FileOutputStream(fileName);
@@ -67,11 +83,16 @@ public class TravProfDB {
     }
 
     // Fetch all current content of DB file into traveler array
-    private void initializeDatabase(String fName) throws IOException, ClassNotFoundException{
+    public void initializeDatabase(String fName) throws IOException, ClassNotFoundException{
 
         // Create an object input stream, read from the database into the travelers list
             FileInputStream f = new FileInputStream(fName);
-            ObjectInputStream s = new ObjectInputStream(f);
-            this.travelerList = (ArrayList<TravProf>) s.readObject();
+            try {
+                ObjectInputStream s = new ObjectInputStream(f);
+                this.travelerList = (ArrayList<TravProf>) s.readObject();
+            } catch (EOFException e) {
+                System.out.println("Database is empty");
+            }
+
     }
 }
