@@ -70,12 +70,13 @@ public class TravProfInterface {
         System.out.println("(0) Exit");
 
         Scanner in = new Scanner(System.in);
-        int choice = in.nextInt();
-        this.selection = choice;
+        this.selection = in.nextInt();
     }
 
     public void deleteTravProf(){
         boolean success = false;
+
+        System.out.println("Enter the traveler's last name.");
 
         Scanner in = new Scanner(System.in);
         String lstName = in.nextLine();
@@ -96,17 +97,18 @@ public class TravProfInterface {
         System.out.println("Please enter the last name of the traveler");
         Scanner in = new Scanner(System.in);
         String lstName = in.nextLine();
+
         TravProfDB db = getDB();
         String agID = getTravAgentID();
         TravProf currTP = db.findProfile(lstName, agID);
         displayTravProf(currTP);
-
     }
 
     public void updateTravProf(){
         Scanner in = new Scanner(System.in);
         System.out.println("Enter the traveler's last name.");
         String lstName = in.nextLine();
+
         System.out.println("What would you like to update?");
         System.out.println("(1) Update address");
         System.out.println("(2) Update phone number");
@@ -118,40 +120,49 @@ public class TravProfInterface {
         System.out.println("(8) Update allergy type");
         System.out.println("(9) Update illness type");
         System.out.println("Enter the option number");
+
         int choice = in.nextInt();
         TravProfDB dB = getDB();
         String agentID = getTravAgentID();
         TravProf traveler = dB.findProfile(lstName, agentID);
         MedCond travMed = traveler.getMedCondInfo();
+
         if (choice == 1) {
             String address = in.nextLine();
             traveler.updateAddress(address);
+
         } else if (choice == 2) {
             String phone = in.nextLine();
             traveler.updatePhone(phone);
+
         } else if (choice == 3) {
             String travType = in.nextLine();
             traveler.updateTravelType(travType);
+
         } else if (choice == 4) {
             float cost = in.nextFloat();
             traveler.updateTripCost(cost);
+
         } else if (choice == 5) {
             String payType = in.nextLine();
             traveler.updatePaymentType(payType);
+
         } else if (choice == 6) {
             String physContact = in.nextLine();
             travMed.updateMdContact(physContact);
+
         } else if (choice == 7) {
             String physNum = in.nextLine();
             travMed.updateMdPhone(physNum);
+
         } else if (choice == 8) {
             String allergy = in.nextLine();
             travMed.updateAlgType(allergy);
+
         } else if (choice == 9) {
             String illness = in.nextLine();
             travMed.updateIllType(illness);
         }
-
     }
 
     public void displayTravProf(TravProf profile){
@@ -192,6 +203,7 @@ public class TravProfInterface {
         System.out.println("Enter Agent ID");
         String agentID = in.nextLine();
         TravProfDB db = getDB();
+
         for(TravProf t : db.getTravelerList()){
             displayTravProf(t);
         }
@@ -208,7 +220,7 @@ public class TravProfInterface {
         db.initializeDatabase(this.fileName);
     }
 
-   public TravProf createNewTravProf(){
+    public TravProf createNewTravProf(){
         Scanner in = new Scanner(System.in);
         TravProfDB dB = getDB();
         String agent, fName, lName, address, phoneNum, travType, payType = "";
@@ -216,41 +228,52 @@ public class TravProfInterface {
 
         System.out.println("Enter traveler agent ID");
         agent = in.nextLine();
+
         System.out.println("Enter first name");
         fName = in.nextLine();
+
         System.out.println("Enter last name");
         lName = in.nextLine();
+
         System.out.println("Enter traveler's address");
         address = in.nextLine();
+
         System.out.println("Enter phone number");
         phoneNum = in.nextLine();
+
         System.out.println("Enter trip type");
         travType = in.nextLine();
+
         System.out.println("Enter payment type");
         payType = in.nextLine();
+
         System.out.println("Enter the cost of the trip");
         cost = in.nextFloat();
+
         MedCond medical = createNewMedCond();
         TravProf traveler = new TravProf(agent, fName, lName, address, phoneNum, cost, travType, payType, medical);
         dB.insertNewProfile(traveler);
 
         return traveler;
     }
-//
-    public MedCond createNewMedCond(){
+
+    public MedCond createNewMedCond() {
         Scanner in = new Scanner(System.in);
         String contact, phone, allergy, illness = "";
+
         System.out.println("Enter physician name");
         contact = in.nextLine();
+
         System.out.println("Enter physician's phone number");
         phone = in.nextLine();
+
         System.out.println("Enter allergy if you have one, else write none");
         allergy = in.nextLine();
+
         System.out.println("Enter illness if you have one, else write none");
         illness = in.nextLine();
-        MedCond medical = new MedCond(contact, phone, allergy, illness);
-        return medical;
 
+        return new MedCond(contact, phone, allergy, illness);
     }
 
     public String getFileName() {

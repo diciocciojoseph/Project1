@@ -31,7 +31,7 @@ public class TravProfDB {
         boolean deleted = false;
 
         // Search for the profile with the given ID and lName
-        for(int i = 0; i < this.currentTravelerIndex; i++){
+        for(int i = 0; i < this.travelerList.size(); i++){
             TravProf currentProf = this.travelerList.get(i);
             if(currentProf.getTravAgentID().equals(travID) && currentProf.getLastName().equals(lName)){
 
