@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class TravProfDB {
 
+
     private int numTravelers;                    // Holds total # of profiles in travelerList
     private int currentTravelerIndex;            // Points to the current profile
     private String fileName;                     // Holds name of file the profiles are stored in
@@ -91,7 +92,7 @@ public class TravProfDB {
                 ObjectInputStream s = new ObjectInputStream(f);
                 this.travelerList = (ArrayList<TravProf>) s.readObject();
             } catch (EOFException e) {
-                System.out.println("Database is empty");
+                System.out.println("Database is currently empty");
             }
 
     }

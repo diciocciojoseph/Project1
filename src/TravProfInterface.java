@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class TravProfInterface {
 
-    private String fileName;
-    private int selection;
-    private TravProfDB db;
-    private String travAgentID;
+    private String fileName;            // Holds database file name
+    private int selection;              // Variable to keep track of user menu selection
+    private TravProfDB db;              // Database object to read / write to DB after execution
+    private String curTravAgentID;      // Holds the ID of the travel agent interacting with the ITS
 
     public TravProfInterface(String fileName) {
         this.fileName = fileName;
@@ -15,52 +15,54 @@ public class TravProfInterface {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        TravProfInterface tpi = new TravProfInterface("TravelerDatabase.txt");
-        tpi.initDB();
+        // Initialize an interface object, then initialize the database
+        TravProfInterface travInterface = new TravProfInterface("TravelerDatabase.txt");
+        travInterface.initDB();
 
+        // Get the ITS user's ID,
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to ITS, please enter your ITS ID:");
-        String id = scanner.nextLine();
+        travInterface.curTravAgentID = scanner.nextLine();;
 
-        // Stores the current agent ID
-        tpi.travAgentID = id;
-
+        // Main loop to allow the user to interact with the menu
         while (true){
 
-            tpi.getUserChoice();
-            int choice = tpi.getSelection();
+            // After every iteration, get the user choice, and perform the corresponding action
+            travInterface.getUserChoice();
+            int choice = travInterface.getSelection();
 
             if (choice == 1) {
-                tpi.createNewTravProf();
+                travInterface.createNewTravProf();
 
             } else if (choice == 2) {
-                tpi.findTravProf();
+                travInterface.findTravProf();
 
             } else if (choice == 3) {
-                tpi.deleteTravProf();
+                travInterface.deleteTravProf();
 
             } else if (choice == 4) {
-                tpi.updateTravProf();
+                travInterface.updateTravProf();
 
             } else if (choice == 5) {
-                tpi.displayAllTravProf();
+                travInterface.displayAllTravProf();
 
             } else if (choice == 6) {
                 System.out.println("Enter your Agent ID");
                 String agent = scanner.nextLine();
-                tpi.setTravAgentID(agent);
+                travInterface.setTravAgentID(agent);
 
             } else if (choice == 0) {
-                tpi.writeToDB();
+                travInterface.writeToDB();
                 break;
             }
         }
     }
 
-
+    // Function to print menu options and get a selection from the user
     public void getUserChoice(){
 
         // Print options
+        System.out.println("");
         System.out.println("(1) Enter New Traveler Profile");
         System.out.println("(2) Find Profile");
         System.out.println("(3) Delete Profile");
@@ -70,21 +72,30 @@ public class TravProfInterface {
         System.out.println("(0) Exit");
 
         Scanner in = new Scanner(System.in);
-        this.selection = in.nextInt();
+
+        // Add this for all inputs
+        try {
+            this.selection = Integer.parseInt(in.nextLine());
+        } catch (NumberFormatException e){
+            this.selection = -1;
+            System.out.println("Please enter a number as an option.");
+        }
     }
 
+    // Delete a TravProf give an last name and travProfID
+    // TODO: The user cannot delete a profile unless they created it
     public void deleteTravProf(){
         boolean success = false;
 
         System.out.println("Enter the traveler's last name.");
-
         Scanner in = new Scanner(System.in);
         String lstName = in.nextLine();
 
-        String agentID = getTravAgentID();
-        TravProfDB db = getDB();
+        System.out.println("Enter the traveler's ID.");
+        String travProfID = in.nextLine();
 
-        success = db.deleteProfile(agentID, lstName);
+        TravProfDB db = getDB();
+        success = db.deleteProfile(travProfID, lstName);
 
         if (success) {
             System.out.println("Profile has been successfully deleted.");
@@ -93,26 +104,52 @@ public class TravProfInterface {
         }
     }
 
+    // Finds and displays a traveler profile based on last name and travAgentID
     public void findTravProf() {
-        System.out.println("Please enter the last name of the traveler");
+        System.out.println("Please enter the last name of the traveler.");
         Scanner in = new Scanner(System.in);
         String lstName = in.nextLine();
 
+        System.out.println("Please enter their ID.");
+        String travAgentID = in.nextLine();
+
         TravProfDB db = getDB();
-        String agID = getTravAgentID();
-        TravProf currTP = db.findProfile(lstName, agID);
-        displayTravProf(currTP);
+
+        TravProf curTP = db.findProfile(lstName, travAgentID);
+
+        if(curTP == null){
+            System.out.println("Sorry the requested profile was not found.");
+            return;
+        }
+
+        displayTravProf(curTP);
     }
 
+    // Update a traveler profile
     public void updateTravProf(){
         Scanner in = new Scanner(System.in);
         System.out.println("Enter the traveler's last name.");
         String lstName = in.nextLine();
 
+        System.out.println("Enter their ID.");
+        String travAgentID = in.nextLine();
+
+        // Attempt to find the profile
+        TravProfDB dB = getDB();
+        TravProf traveler = dB.findProfile(lstName, travAgentID);
+
+        if (traveler == null){
+            System.out.println("Sorry the requested profile could not be found");
+            return;
+        }
+
+        MedCond travMed = traveler.getMedCondInfo();
+
+
         System.out.println("What would you like to update?");
         System.out.println("(1) Update address");
         System.out.println("(2) Update phone number");
-        System.out.println("(3) Update Travel Type");
+        System.out.println("(3) Update travel type");
         System.out.println("(4) Update trip cost");
         System.out.println("(5) Update payment type");
         System.out.println("(6) Update physician contact");
@@ -121,48 +158,55 @@ public class TravProfInterface {
         System.out.println("(9) Update illness type");
         System.out.println("Enter the option number");
 
-        int choice = in.nextInt();
-        TravProfDB dB = getDB();
-        String agentID = getTravAgentID();
-        TravProf traveler = dB.findProfile(lstName, agentID);
-        MedCond travMed = traveler.getMedCondInfo();
+        int choice = Integer.parseInt(in.nextLine());
 
         if (choice == 1) {
+            System.out.println("Please enter the new address.");
             String address = in.nextLine();
             traveler.updateAddress(address);
+            System.out.println("Address updated successfully.");
 
         } else if (choice == 2) {
+            System.out.println("Please enter the new phone number");
             String phone = in.nextLine();
             traveler.updatePhone(phone);
 
         } else if (choice == 3) {
+            System.out.println("Please enter the new travel type");
             String travType = in.nextLine();
             traveler.updateTravelType(travType);
 
         } else if (choice == 4) {
+            System.out.println("Please enter the new trip cost.");
             float cost = in.nextFloat();
             traveler.updateTripCost(cost);
 
         } else if (choice == 5) {
+            System.out.println("Please enter the new payment type.");
             String payType = in.nextLine();
             traveler.updatePaymentType(payType);
 
         } else if (choice == 6) {
+            System.out.println("Please enter the new physician contact.");
             String physContact = in.nextLine();
             travMed.updateMdContact(physContact);
 
         } else if (choice == 7) {
+            System.out.println("Please enter the new physician phone number.");
             String physNum = in.nextLine();
             travMed.updateMdPhone(physNum);
 
         } else if (choice == 8) {
+            System.out.println("Please enter the new allergy type.");
             String allergy = in.nextLine();
             travMed.updateAlgType(allergy);
 
         } else if (choice == 9) {
+            System.out.println("Please enter the new illness type.");
             String illness = in.nextLine();
             travMed.updateIllType(illness);
         }
+        System.out.println("");
     }
 
     public void displayTravProf(TravProf profile){
@@ -195,7 +239,7 @@ public class TravProfInterface {
         System.out.println("Physician's phone number: " + mdPhone);
         System.out.println("Traveler's allergy: " + allergy);
         System.out.println("Traveler's illness: " + illness);
-
+        System.out.println("");
     }
 
     public void displayAllTravProf(){
@@ -222,7 +266,7 @@ public class TravProfInterface {
 
     public TravProf createNewTravProf(){
         Scanner in = new Scanner(System.in);
-        TravProfDB dB = getDB();
+        TravProfDB db = getDB();
         String agent, fName, lName, address, phoneNum, travType, payType = "";
         float cost = 0;
 
@@ -248,11 +292,11 @@ public class TravProfInterface {
         payType = in.nextLine();
 
         System.out.println("Enter the cost of the trip");
-        cost = in.nextFloat();
+        cost = Float.parseFloat(in.nextLine());
 
         MedCond medical = createNewMedCond();
         TravProf traveler = new TravProf(agent, fName, lName, address, phoneNum, cost, travType, payType, medical);
-        dB.insertNewProfile(traveler);
+        db.insertNewProfile(traveler);
 
         return traveler;
     }
@@ -289,10 +333,10 @@ public class TravProfInterface {
     }
 
     public String getTravAgentID() {
-        return travAgentID;
+        return curTravAgentID;
     }
 
     public void setTravAgentID(String agent) {
-        travAgentID = agent;
+        curTravAgentID = agent;
     }
 }
