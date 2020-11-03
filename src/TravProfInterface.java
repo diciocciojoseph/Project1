@@ -22,7 +22,7 @@ public class TravProfInterface {
         // Get the ITS user's ID,
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to ITS, please enter your ITS ID:");
-        travInterface.curTravAgentID = scanner.nextLine();;
+        travInterface.curTravAgentID = scanner.nextLine();
 
         // Main loop to allow the user to interact with the menu
         while (true){
@@ -83,7 +83,6 @@ public class TravProfInterface {
     }
 
     // Delete a TravProf give an last name and travProfID
-    // TODO: The user cannot delete a profile unless they created it
     public void deleteTravProf(){
         boolean success = false;
 
@@ -95,12 +94,17 @@ public class TravProfInterface {
         String travProfID = in.nextLine();
 
         TravProfDB db = getDB();
-        success = db.deleteProfile(travProfID, lstName);
+        TravProf toBeDeleted = db.findProfile(travProfID, lstName);
+        if(toBeDeleted.getCreatedByAgentID().equals(getTravAgentID())){
+            success = db.deleteProfile(travProfID, lstName);
 
-        if (success) {
-            System.out.println("Profile has been successfully deleted.");
+            if (success) {
+                System.out.println("Profile has been successfully deleted.");
+            } else {
+                System.out.println("Unable to delete profile.");
+            }
         } else {
-            System.out.println("Unable to delete profile.");
+            System.out.println("Sorry you can only delete profiles that you create.");
         }
     }
 
@@ -147,16 +151,16 @@ public class TravProfInterface {
 
 
         System.out.println("What would you like to update?");
-        System.out.println("(1) Update address");
-        System.out.println("(2) Update phone number");
-        System.out.println("(3) Update travel type");
-        System.out.println("(4) Update trip cost");
-        System.out.println("(5) Update payment type");
-        System.out.println("(6) Update physician contact");
-        System.out.println("(7) Update physician phone number");
-        System.out.println("(8) Update allergy type");
-        System.out.println("(9) Update illness type");
-        System.out.println("Enter the option number");
+        System.out.println("(1) Update address.");
+        System.out.println("(2) Update phone number.");
+        System.out.println("(3) Update travel type.");
+        System.out.println("(4) Update trip cost.");
+        System.out.println("(5) Update payment type.");
+        System.out.println("(6) Update physician contact.");
+        System.out.println("(7) Update physician phone number.");
+        System.out.println("(8) Update allergy type.");
+        System.out.println("(9) Update illness type.");
+        System.out.println("Enter the option number.");
 
         int choice = Integer.parseInt(in.nextLine());
 
@@ -172,8 +176,18 @@ public class TravProfInterface {
             traveler.updatePhone(phone);
 
         } else if (choice == 3) {
-            System.out.println("Please enter the new travel type");
-            String travType = in.nextLine();
+            System.out.println("Please enter the new travel type: (1) Pleasure, (2) Business");
+            int trav_choice = Integer.parseInt(in.nextLine());
+            String travType = traveler.getTravelType();
+
+            if (trav_choice == 1){
+                travType = "Pleasure";
+            } else if (trav_choice == 2){
+                travType = "Business";
+            } else {
+                System.out.println("Invalid choice for trip type, update failed please try again.");
+            }
+
             traveler.updateTravelType(travType);
 
         } else if (choice == 4) {
@@ -182,8 +196,21 @@ public class TravProfInterface {
             traveler.updateTripCost(cost);
 
         } else if (choice == 5) {
-            System.out.println("Please enter the new payment type.");
-            String payType = in.nextLine();
+            System.out.println("Please enter the new payment type: (1) Credit, (2) Check, (3) Debit, (4) Invoice");
+            int pay_choice = Integer.parseInt(in.nextLine());
+            String payType = traveler.getPaymentType();
+            if (pay_choice == 1){
+                payType = "Credit";
+            } else if (pay_choice == 2){
+                payType = "Check";
+            } else if (pay_choice == 3){
+                payType = "Debit";
+            } else  if (pay_choice == 4){
+                payType = "Invoice";
+            } else {
+                System.out.println("Invalid choice for payment type, update failed please try again.");
+            }
+
             traveler.updatePaymentType(payType);
 
         } else if (choice == 6) {
@@ -197,13 +224,41 @@ public class TravProfInterface {
             travMed.updateMdPhone(physNum);
 
         } else if (choice == 8) {
-            System.out.println("Please enter the new allergy type.");
-            String allergy = in.nextLine();
+            System.out.println("Please enter the new allergy type: (1) None, (2) Food, (3) Medication, (4) Other, please specify in next line");
+            String allergy = traveler.getMedCondInfo().getAlgType();
+            int allergy_choice = Integer.parseInt(in.nextLine());
+            if(allergy_choice == 1){
+                allergy = "None";
+            } else if (allergy_choice == 2){
+                allergy = "Food";
+            } else if (allergy_choice == 3){
+                allergy = "Medication";
+            } else if (allergy_choice == 4){
+                System.out.println("Specify your allergy type here:");
+                allergy = in.nextLine();
+            } else {
+                System.out.println("Invalid option for allergy, update failed please try again.");
+            }
             travMed.updateAlgType(allergy);
 
         } else if (choice == 9) {
-            System.out.println("Please enter the new illness type.");
-            String illness = in.nextLine();
+            System.out.println("Please enter the new illness type: (1) None, (2) Heart, (3) Diabetes, (4) Asthma, (5) Other, please specify in next line");
+            String illness = traveler.getMedCondInfo().getIllType();
+            int illness_choice = Integer.parseInt(in.nextLine());
+            if(illness_choice == 1){
+                illness = "None";
+            } else if (illness_choice == 2){
+                illness = "Heart";
+            } else if (illness_choice == 3){
+                illness = "Diabetes";
+            } else if (illness_choice == 4){
+                illness = "Asthma";
+            } else if (illness_choice == 5) {
+                System.out.println("Specify your illness type here:");
+                illness = in.nextLine();
+            } else {
+                System.out.println("Invalid option for illness, field left blank, please update later.");
+            }
             travMed.updateIllType(illness);
         }
         System.out.println("");
@@ -243,11 +298,7 @@ public class TravProfInterface {
     }
 
     public void displayAllTravProf(){
-        Scanner in = new Scanner(System.in);
-        System.out.println("Enter Agent ID");
-        String agentID = in.nextLine();
         TravProfDB db = getDB();
-
         for(TravProf t : db.getTravelerList()){
             displayTravProf(t);
         }
@@ -285,17 +336,39 @@ public class TravProfInterface {
         System.out.println("Enter phone number");
         phoneNum = in.nextLine();
 
-        System.out.println("Enter trip type");
-        travType = in.nextLine();
+        System.out.println("Enter trip type: (1) Pleasure, (2) Business");
+        int trav_choice = Integer.parseInt(in.nextLine());
+        if (trav_choice == 1){
+            travType = "Pleasure";
+        } else if (trav_choice == 2){
+            travType = "Business";
+        } else {
+            System.out.println("Invalid choice for trip type, field left blank please update later.");
+            travType = "";
+        }
 
-        System.out.println("Enter payment type");
-        payType = in.nextLine();
+        System.out.println("Enter payment type: (1) Credit, (2) Check, (3) Debit, (4) Invoice");
+        int pay_choice = Integer.parseInt(in.nextLine());
+
+        if (pay_choice == 1){
+            payType = "Credit";
+        } else if (pay_choice == 2){
+            payType = "Check";
+        } else if (pay_choice == 3){
+            payType = "Debit";
+        } else if (pay_choice == 4){
+            payType = "Invoice";
+        } else {
+            System.out.println("Invalid choice for payment type, field left blank please update later.");
+            payType = "";
+        }
 
         System.out.println("Enter the cost of the trip");
         cost = Float.parseFloat(in.nextLine());
 
         MedCond medical = createNewMedCond();
-        TravProf traveler = new TravProf(agent, fName, lName, address, phoneNum, cost, travType, payType, medical);
+        TravProf traveler = new TravProf(agent, fName, lName, address, phoneNum,
+                cost, travType, payType, medical, getTravAgentID());
         db.insertNewProfile(traveler);
 
         return traveler;
@@ -303,19 +376,46 @@ public class TravProfInterface {
 
     public MedCond createNewMedCond() {
         Scanner in = new Scanner(System.in);
-        String contact, phone, allergy, illness = "";
 
         System.out.println("Enter physician name");
-        contact = in.nextLine();
+        String contact = in.nextLine();
 
         System.out.println("Enter physician's phone number");
-        phone = in.nextLine();
+        String phone = in.nextLine();
 
-        System.out.println("Enter allergy if you have one, else write none");
-        allergy = in.nextLine();
+        System.out.println("Enter allergy type: (1) None, (2) Food, (3) Medication, (4) Other, please specify in next line");
+        String allergy = "";
+        int allergy_choice = Integer.parseInt(in.nextLine());
+        if(allergy_choice == 1){
+            allergy = "None";
+        } else if (allergy_choice == 2){
+            allergy = "Food";
+        } else if (allergy_choice == 3){
+            allergy = "Medication";
+        } else if (allergy_choice == 4){
+            System.out.println("Specify your allergy type here:");
+            allergy = in.nextLine();
+        } else {
+            System.out.println("Invalid option for allergy, field left blank please update later.");
+        }
 
-        System.out.println("Enter illness if you have one, else write none");
-        illness = in.nextLine();
+        System.out.println("Enter illness type: (1) None, (2) Heart, (3) Diabetes, (4) Asthma, (5) Other, please specify in next line");
+        String illness = "";
+        int illness_choice = Integer.parseInt(in.nextLine());
+        if(illness_choice == 1){
+            illness = "None";
+        } else if (illness_choice == 2){
+            illness = "Heart";
+        } else if (illness_choice == 3){
+            illness = "Diabetes";
+        } else if (illness_choice == 4){
+            illness = "Asthma";
+        } else if (illness_choice == 5) {
+            System.out.println("Specify your illness type here:");
+            illness = in.nextLine();
+        } else {
+            System.out.println("Invalid option for illness, field left blank, please update later.");
+        }
 
         return new MedCond(contact, phone, allergy, illness);
     }

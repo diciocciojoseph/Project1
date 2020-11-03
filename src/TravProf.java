@@ -4,6 +4,7 @@ public class TravProf implements Serializable {
 
     // Instance Variables
     private String travAgentID;
+    private String createdByAgentID;
     private String firstName;
     private String lastName;
     private String address;
@@ -16,7 +17,7 @@ public class TravProf implements Serializable {
     // Constructor
     public TravProf(String travAgentID, String firstName, String lastName, String address,
                     String phone, float tripCost, String travelType, String paymentType,
-                    MedCond medCondInfo){
+                    MedCond medCondInfo, String createdByAgentID){
 
         this.travAgentID = travAgentID;
         this.firstName = firstName;
@@ -27,6 +28,7 @@ public class TravProf implements Serializable {
         this.paymentType = paymentType;
         this.tripCost = tripCost;
         this.medCondInfo = medCondInfo;
+        this.createdByAgentID = createdByAgentID;
     }
 
     // Get Methods
@@ -64,6 +66,9 @@ public class TravProf implements Serializable {
         return this.medCondInfo;
     }
 
+    public String getCreatedByAgentID() {
+        return createdByAgentID;
+    }
 
     // Update Methods
     public void updateFirstName(String firstName) {
@@ -96,5 +101,9 @@ public class TravProf implements Serializable {
 
     public void updateMedCondInfo(MedCond medCondInfo) {
         this.medCondInfo = medCondInfo;
+    }
+
+    public void updateCreatedByAgentID(String id){
+        this.createdByAgentID = id;
     }
 }

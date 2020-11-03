@@ -1,0 +1,80 @@
+Unit and Integration Tests:
+
+Tests will be run using a "black-box" method, the program will be run, and the inputs given will be detailed
+in the test cases. The cases will look to test as many sub-domains of the test domain using representative cases.
+Program execution input and output screenshots will be provided for each test (see test_output directory).
+
+------------------------------------------------------------------------------------------------------------------------
+UNIT TESTS
+------------------------------------------------------------------------------------------------------------------------
+
+Test 1: Creating new Traveler Profiles
+Use the Enter New Profile option to create a few new profiles, making sure to test all significant aspects of the menu
+
+Profile 1
+TA1
+1
+TA1
+Joseph
+DiCioccio
+my address 123
+123-456-7890
+1
+1
+100
+my physician
+111-222-3333
+2
+5
+my illness
+
+Profile 2
+TA2
+1
+TA2
+Wingsheng
+Sze
+my address 456
+098-765-4321
+2
+2
+200
+my physician
+222-333-4444
+4
+my allergy
+1
+
+The profiles should be created without error using the menu interface options.
+------------------------------------------------------------------------------------------------------------------------
+
+Test 2: Finding a Traveler Profile
+See if we can use the Find Profile option to find our created profiles
+(already in the menu interface options)
+
+Finding the first profile:
+
+2
+DiCioccio
+TA1
+
+Finding the second profile:
+2
+Sze
+TA2
+
+You should see the corresponding profile information output for each profile.
+------------------------------------------------------------------------------------------------------------------------
+
+Test 3.a: Deleting a Traveler Profile with the correct agentID
+Test 3.b: Deleting a Traveler Profile with the incorrect agentID, then updating ID to delete successfully
+
+Test 4: Updating an existing profile
+
+Test 5: Displaying all profiles
+
+Test 6: Persistent Data Test
+
+------------------------------------------------------------------------------------------------------------------------
+INTEGRATION TESTS
+------------------------------------------------------------------------------------------------------------------------
