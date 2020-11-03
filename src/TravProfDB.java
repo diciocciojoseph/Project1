@@ -49,6 +49,7 @@ public class TravProfDB {
         return deleted;
     }
 
+    // Function to find and return a TravProf given a last name and ID, null if nothing was found
     public TravProf findProfile(String lastName, String travAgID) {
         TravProf resultProf = null;
         for (int i = 0; i < this.travelerList.size(); i++) {
@@ -61,11 +62,13 @@ public class TravProfDB {
         return resultProf;
     }
 
+    // Get first profile
     public TravProf findFirstProfile(){
         this.currentTravelerIndex = 0;
         return this.travelerList.get(0);
     }
 
+    // Get next profile
     public TravProf findNextProfile(){
         if (this.currentTravelerIndex < this.numTravelers) {
             this.currentTravelerIndex++;
@@ -97,6 +100,7 @@ public class TravProfDB {
 
     }
 
+    // Get method for travelers list
     public ArrayList<TravProf> getTravelerList() {
         return travelerList;
     }

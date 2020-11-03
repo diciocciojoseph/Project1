@@ -12,6 +12,7 @@ Test 1: Creating new Traveler Profiles
 Use the Enter New Profile option to create a few new profiles, making sure to test all significant aspects of the menu
 
 Profile 1
+(input sequence after initial program execution)
 TA1
 1
 TA1
@@ -29,6 +30,7 @@ my physician
 my illness
 
 Profile 2
+(input sequence after initial program execution)
 TA2
 1
 TA2
@@ -53,7 +55,6 @@ See if we can use the Find Profile option to find our created profiles
 (already in the menu interface options)
 
 Finding the first profile:
-
 2
 DiCioccio
 TA1
@@ -67,14 +68,100 @@ You should see the corresponding profile information output for each profile.
 ------------------------------------------------------------------------------------------------------------------------
 
 Test 3.a: Deleting a Traveler Profile with the correct agentID
+First display all the profiles, then if we delete profile 2 and display all again it should be gone
+
+(on program execution)
+TA2
+5
+3
+Sze
+TA2
+
 Test 3.b: Deleting a Traveler Profile with the incorrect agentID, then updating ID to delete successfully
+First display all profiles (should just be profile 1 now), but if we try to delete the profile it will not work
+this is because we did not create the first profile under TA2, we created it under TA1, so it shouldn't work
+After changing our agentID to TA1 it should work and all profiles should be gone
+
+(continuation from part a)
+3
+DiCioccio
+TA1
+6
+TA1
+3
+DiCioccio
+TA1
+5
+
+Afterwards both profiles should be successfully deleted. This demonstrates the constraint that profiles can only
+be deleted by their creator.
+------------------------------------------------------------------------------------------------------------------------
 
 Test 4: Updating an existing profile
+Take an existing profile and use the update menu option to update multiple profile fields
+
+(already in menu interface options)
+4
+DiCioccio
+TA1
+4
+900
+4
+DiCioccio
+TA1
+1
+new address 123
+4
+DiCioccio
+TA1
+9
+3
+2
+DiCioccio
+TA1
+
+After updating, you find the profile and the updated values should be there.
+------------------------------------------------------------------------------------------------------------------------
 
 Test 5: Displaying all profiles
+Use the display all profile option to show all the profiles, it should display profile1 and profile2 created
+
+(from menu interface)
+5
+
+The two profiles should be shown
+------------------------------------------------------------------------------------------------------------------------
 
 Test 6: Persistent Data Test
+After the program initially starts, we should be able to find all profiles if they were saved before
+
+(on program start)
+TA1
+5
+
+Without entering any new profile information, we are able to see the profiles (they were loaded on program start)
 
 ------------------------------------------------------------------------------------------------------------------------
-INTEGRATION TESTS
+INTEGRATION TESTS - see input/output in screenshots
+These tests are meant to see how the program performs when doing multiple operations sequentially,
+again in a black box fashion we are using the interface as intended and seeing if any problems arise
+------------------------------------------------------------------------------------------------------------------------
+Test 7
+
+1. Create a profile
+2. Update the phone number field
+3. Exit program / Restart Program
+4. Find the profile
+5. Delete the profile
+4. Find the profile
+
+------------------------------------------------------------------------------------------------------------------------
+Test 8
+
+1. Create two profiles
+3. display all profiles
+4. Exit program / Restart program
+5. Find the second profile
+6. Delete the first profile
+
 ------------------------------------------------------------------------------------------------------------------------

@@ -9,9 +9,9 @@ public class TravProfInterface {
     private TravProfDB db;              // Database object to read / write to DB after execution
     private String curTravAgentID;      // Holds the ID of the travel agent interacting with the ITS
 
+    // Constructor initialize filename
     public TravProfInterface(String fileName) {
         this.fileName = fileName;
-        this.db = null;
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -73,7 +73,7 @@ public class TravProfInterface {
 
         Scanner in = new Scanner(System.in);
 
-        // Add this for all inputs
+        // Get the user selection
         try {
             this.selection = Integer.parseInt(in.nextLine());
         } catch (NumberFormatException e){
@@ -86,6 +86,7 @@ public class TravProfInterface {
     public void deleteTravProf(){
         boolean success = false;
 
+        // Get input name and ID
         System.out.println("Enter the traveler's last name.");
         Scanner in = new Scanner(System.in);
         String lstName = in.nextLine();
@@ -93,8 +94,16 @@ public class TravProfInterface {
         System.out.println("Enter the traveler's ID.");
         String travProfID = in.nextLine();
 
+        // Use db object to attempt to find and delete the given profile
         TravProfDB db = getDB();
-        TravProf toBeDeleted = db.findProfile(travProfID, lstName);
+        TravProf toBeDeleted = db.findProfile(lstName, travProfID);
+
+        if(toBeDeleted == null){
+            System.out.println("Given profile not found.");
+            return;
+        }
+
+        // Conditionally check to see if the profile was created by the user, if so deletion is possible, else it fails
         if(toBeDeleted.getCreatedByAgentID().equals(getTravAgentID())){
             success = db.deleteProfile(travProfID, lstName);
 
@@ -110,6 +119,7 @@ public class TravProfInterface {
 
     // Finds and displays a traveler profile based on last name and travAgentID
     public void findTravProf() {
+        // Get last name and ID as input for identification purposes
         System.out.println("Please enter the last name of the traveler.");
         Scanner in = new Scanner(System.in);
         String lstName = in.nextLine();
@@ -117,20 +127,21 @@ public class TravProfInterface {
         System.out.println("Please enter their ID.");
         String travAgentID = in.nextLine();
 
+        // Use the db object to attept to find the profile
         TravProfDB db = getDB();
-
         TravProf curTP = db.findProfile(lstName, travAgentID);
 
         if(curTP == null){
             System.out.println("Sorry the requested profile was not found.");
             return;
         }
-
+        // If the profile was found, we can display it
         displayTravProf(curTP);
     }
 
     // Update a traveler profile
     public void updateTravProf(){
+        // Get last name and ID as input
         Scanner in = new Scanner(System.in);
         System.out.println("Enter the traveler's last name.");
         String lstName = in.nextLine();
@@ -149,7 +160,7 @@ public class TravProfInterface {
 
         MedCond travMed = traveler.getMedCondInfo();
 
-
+        // Display menu options
         System.out.println("What would you like to update?");
         System.out.println("(1) Update address.");
         System.out.println("(2) Update phone number.");
@@ -162,6 +173,7 @@ public class TravProfInterface {
         System.out.println("(9) Update illness type.");
         System.out.println("Enter the option number.");
 
+        // Get user choice and update fields accordingly
         int choice = Integer.parseInt(in.nextLine());
 
         if (choice == 1) {
@@ -174,6 +186,7 @@ public class TravProfInterface {
             System.out.println("Please enter the new phone number");
             String phone = in.nextLine();
             traveler.updatePhone(phone);
+            System.out.println("Phone number updated successfully.");
 
         } else if (choice == 3) {
             System.out.println("Please enter the new travel type: (1) Pleasure, (2) Business");
@@ -187,13 +200,14 @@ public class TravProfInterface {
             } else {
                 System.out.println("Invalid choice for trip type, update failed please try again.");
             }
-
+            System.out.println("Travel type updated successfully.");
             traveler.updateTravelType(travType);
 
         } else if (choice == 4) {
             System.out.println("Please enter the new trip cost.");
             float cost = in.nextFloat();
             traveler.updateTripCost(cost);
+            System.out.println("Trip cost updated successfully.");
 
         } else if (choice == 5) {
             System.out.println("Please enter the new payment type: (1) Credit, (2) Check, (3) Debit, (4) Invoice");
@@ -210,18 +224,20 @@ public class TravProfInterface {
             } else {
                 System.out.println("Invalid choice for payment type, update failed please try again.");
             }
-
+            System.out.println("Payment type updated successfully.");
             traveler.updatePaymentType(payType);
 
         } else if (choice == 6) {
             System.out.println("Please enter the new physician contact.");
             String physContact = in.nextLine();
             travMed.updateMdContact(physContact);
+            System.out.println("Physician contact updated successfully.");
 
         } else if (choice == 7) {
             System.out.println("Please enter the new physician phone number.");
             String physNum = in.nextLine();
             travMed.updateMdPhone(physNum);
+            System.out.println("Physician phone updated successfully.");
 
         } else if (choice == 8) {
             System.out.println("Please enter the new allergy type: (1) None, (2) Food, (3) Medication, (4) Other, please specify in next line");
@@ -239,6 +255,7 @@ public class TravProfInterface {
             } else {
                 System.out.println("Invalid option for allergy, update failed please try again.");
             }
+            System.out.println("Allergy type updated successfully.");
             travMed.updateAlgType(allergy);
 
         } else if (choice == 9) {
@@ -259,6 +276,7 @@ public class TravProfInterface {
             } else {
                 System.out.println("Invalid option for illness, field left blank, please update later.");
             }
+            System.out.println("Illness type updated successfully.");
             travMed.updateIllType(illness);
         }
         System.out.println("");
@@ -283,6 +301,7 @@ public class TravProfInterface {
         String allergy = medInfo.getAlgType();
         String illness = medInfo.getIllType();
 
+        // Format and display fields
         System.out.println("Travel Agent ID: " + agentID);
         System.out.println("Traveler name: " + FName + " " + LName);
         System.out.println("Traveler's address: " + address);
@@ -297,6 +316,7 @@ public class TravProfInterface {
         System.out.println("");
     }
 
+    // Function it iterate over all travelers and display them
     public void displayAllTravProf(){
         TravProfDB db = getDB();
         for(TravProf t : db.getTravelerList()){
@@ -304,23 +324,28 @@ public class TravProfInterface {
         }
     }
 
+    // Write the current contents of the traveler list into the database file
     public void writeToDB() throws IOException {
         TravProfDB dB = getDB();
         String file = getFileName();
         dB.writeAllTravProf(file);
     }
 
+    // Initialize the database, write the contents of the database file into the travelers list
     public void initDB() throws IOException, ClassNotFoundException {
         this.db = new TravProfDB(this.fileName);
         db.initializeDatabase(this.fileName);
     }
 
+    // Function to create a new traveler profile
     public TravProf createNewTravProf(){
         Scanner in = new Scanner(System.in);
         TravProfDB db = getDB();
+        // initialize variables
         String agent, fName, lName, address, phoneNum, travType, payType = "";
         float cost = 0;
 
+        // Accept input for each profile field
         System.out.println("Enter traveler agent ID");
         agent = in.nextLine();
 
@@ -366,7 +391,10 @@ public class TravProfInterface {
         System.out.println("Enter the cost of the trip");
         cost = Float.parseFloat(in.nextLine());
 
+        // Call the createNewMedCond() function to get the medcond portion
         MedCond medical = createNewMedCond();
+
+        // Finally, create the new TravProf object and insert it into the travelers list using the db object
         TravProf traveler = new TravProf(agent, fName, lName, address, phoneNum,
                 cost, travType, payType, medical, getTravAgentID());
         db.insertNewProfile(traveler);
@@ -374,9 +402,11 @@ public class TravProfInterface {
         return traveler;
     }
 
+    // Function to accept user input to create a MedCond object
     public MedCond createNewMedCond() {
         Scanner in = new Scanner(System.in);
 
+        // Get user input for medcond fields
         System.out.println("Enter physician name");
         String contact = in.nextLine();
 
@@ -417,9 +447,11 @@ public class TravProfInterface {
             System.out.println("Invalid option for illness, field left blank, please update later.");
         }
 
+        // Create the new medcond object and return it
         return new MedCond(contact, phone, allergy, illness);
     }
 
+    // Get methods
     public String getFileName() {
         return fileName;
     }
@@ -436,6 +468,7 @@ public class TravProfInterface {
         return curTravAgentID;
     }
 
+    // Set methods
     public void setTravAgentID(String agent) {
         curTravAgentID = agent;
     }

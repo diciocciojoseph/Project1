@@ -4,7 +4,7 @@ public class TravProf implements Serializable {
 
     // Instance Variables
     private String travAgentID;
-    private String createdByAgentID;
+    private String createdByAgentID; // Added this variable to keep track of who created the profile (deletion purposes)
     private String firstName;
     private String lastName;
     private String address;
