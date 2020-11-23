@@ -26,7 +26,7 @@ public class DeleteMenu {
         JTextField travIDInput = new JTextField();
         JTextField lstNameInput = new JTextField();
 
-        JButton submit = new JButton("Submit");
+        JButton submit = new JButton("Delete");
 
         // Place items on layout
         deleteMenu.add(travIDLabel);
@@ -45,7 +45,11 @@ public class DeleteMenu {
                 // Execute actions in database for deleting
                 String travProfID = travIDInput.getText();
                 String travLstName = lstNameInput.getText();
-                
+                // TODO: delete on database
+
+                JOptionPane JOpt = new JOptionPane();
+                JFrame optFrame = new JFrame("Delete Status");
+                JOpt.showMessageDialog(optFrame, "Profile has been deleted");
                 deleteMenu.dispose();
 
             }
@@ -55,7 +59,7 @@ public class DeleteMenu {
     }
 
     public JFrame getDeleteMenu() {
-        return this.deleteMenu;
+        return deleteMenu;
     }
 
 
