@@ -84,41 +84,20 @@ public class FindMenu {
                 JTextField rewardsIDVal = new JTextField();
                 JTextField rewardsBalVal = new JTextField();
 
-                displayFrame.add(travelerIDLab);
-                displayFrame.add(travIDVal);
+                // Add labels, textfields, buttons to displayFrame
+                JLabel[] labels = {travelerIDLab, firstNameLab, lastNameLab,
+                        addressLab, phoneLab, tripCostLab, travelTypeLab,
+                        payTypeLab, modeTransLab, compNameLab, rewardsIDLab,
+                        rewardsBalLab};
+                JTextField[] values = {travIDVal, firstNameVal, lstNameVal,
+                        addrVal, phoneVal, tripCostVal, travTypeVal,
+                        payTypeVal, travModeVal, compNameVal, rewardsIDVal,
+                        rewardsBalVal};
 
-                displayFrame.add(firstNameLab);
-                displayFrame.add(firstNameVal);
-
-                displayFrame.add(lastNameLab);
-                displayFrame.add(lstNameVal);
-
-                displayFrame.add(addressLab);
-                displayFrame.add(addrVal);
-
-                displayFrame.add(phoneLab);
-                displayFrame.add(phoneVal);
-
-                displayFrame.add(tripCostLab);
-                displayFrame.add(tripCostVal);
-
-                displayFrame.add(travelTypeLab);
-                displayFrame.add(travTypeVal);
-
-                displayFrame.add(payTypeLab);
-                displayFrame.add(payTypeVal);
-
-                displayFrame.add(modeTransLab);
-                displayFrame.add(travModeVal);
-
-                displayFrame.add(compNameLab);
-                displayFrame.add(compNameVal);
-
-                displayFrame.add(rewardsIDLab);
-                displayFrame.add(rewardsIDVal);
-
-                displayFrame.add(rewardsBalLab);
-                displayFrame.add(rewardsBalVal);
+                for (int i = 0; i < labels.length; i++) {
+                    displayFrame.add(labels[i]);
+                    displayFrame.add(values[i]);
+                }
 
                 displayFrame.add(closeBtn);
 
