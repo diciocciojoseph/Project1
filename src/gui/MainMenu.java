@@ -61,8 +61,12 @@ public class MainMenu {
 
                 } else if (deleteBtn.isSelected()){
                     System.out.println("Delete Selected");
+                    DeleteMenu deleteMenu = new DeleteMenu();
+                    deleteMenu.getDeleteMenu().setVisible(true);
                 } else if (updateBtn.isSelected()){
                     System.out.println("Update Selected");
+                    UpdateMenu updateMenu = new UpdateMenu();
+                    updateMenu.getUpdateMenu().setVisible(true);
                 } else if (find_displayBtn.isSelected()){
                     System.out.println("Find/Display Selected");
                 } else if (display_allBtn.isSelected()){

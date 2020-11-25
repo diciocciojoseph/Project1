@@ -16,11 +16,11 @@ public class UpdateMenu {
     private JFrame initGUI() {
 
         JFrame menu = new JFrame("Update Profile");
-        menu.setSize(400, 400);
-        menu.setLayout(new GridLayout(5, 2));
+        menu.setSize(600, 400);
+        menu.setLayout(new GridLayout(6, 2));
         menu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Labels and text fields and combo box
+        // Labels and text fields
         JLabel travIDLabel = new JLabel("Traveler ID:");
         JLabel lstNameLabel = new JLabel("Last Name:");
         JLabel updateLabel = new JLabel("Update Field:");
@@ -28,10 +28,14 @@ public class UpdateMenu {
         JTextField travIDInput = new JTextField();
         JTextField lstNameInput = new JTextField();
 
+        // Drop down menu
         String[] traitsList = {"Address", "Phone Number", "Travel Type",
                 "Trip Cost", "Payment Type", "Physician Type", "Physician " +
                 "Phone Number", "Allergy", "Illness Type"};
-        JComboBox traitsMenu = new JComboBox(traitsList);
+        final JComboBox<String> traitsMenu = new JComboBox<String>(traitsList);
+
+        // Update button
+        JButton updateBtn = new JButton("Update");
 
         // Place Items on Layout
         menu.add(travIDLabel);
@@ -40,8 +44,9 @@ public class UpdateMenu {
         menu.add(lstNameInput);
         menu.add(updateLabel);
         menu.add(traitsMenu);
+        menu.add(updateBtn);
 
-
+        menu.setVisible(true);
         return menu;
     }
 
