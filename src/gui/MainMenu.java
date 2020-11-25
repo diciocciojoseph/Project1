@@ -69,6 +69,8 @@ public class MainMenu {
                     updateMenu.getUpdateMenu().setVisible(true);
                 } else if (find_displayBtn.isSelected()){
                     System.out.println("Find/Display Selected");
+                    FindMenu findMenu = new FindMenu();
+                    findMenu.getFindMenu().setVisible(true);
                 } else if (display_allBtn.isSelected()){
                     System.out.println("Display All Selected");
                 } else {
