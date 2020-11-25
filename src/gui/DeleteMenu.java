@@ -14,7 +14,7 @@ public class DeleteMenu {
 
     private JFrame initGUI() {
         // Init the page and set the exit operation
-        deleteMenu = new JFrame("Delete Profile");
+        JFrame deleteMenu = new JFrame("Delete Profile");
         deleteMenu.setSize(400, 400);
         deleteMenu.setLayout(new GridLayout(4, 2));
         deleteMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
