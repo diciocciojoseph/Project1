@@ -5,8 +5,10 @@ import java.awt.event.ActionListener;
 
 public class DeleteMenu {
     private JFrame deleteMenu;
+    private TravProfDB db;
 
-    public DeleteMenu() {
+    public DeleteMenu(TravProfDB myDB) {
+        this.db = myDB;
         this.deleteMenu = initGUI();
     }
 

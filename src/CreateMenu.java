@@ -5,8 +5,10 @@ import java.awt.event.ActionListener;
 
 public class CreateMenu {
     private JFrame createMenu;
+    private TravProfDB db;
 
-    public CreateMenu(){
+    public CreateMenu(TravProfDB myDB){
+        this.db = myDB;
         this.createMenu = initMenu();
     }
 

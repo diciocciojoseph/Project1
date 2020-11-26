@@ -6,8 +6,10 @@ import java.awt.event.ActionListener;
 public class UpdateMenu {
 
     private JFrame updateMenu;
+    private TravProfDB db;
 
-    public UpdateMenu() {
+    public UpdateMenu(TravProfDB myDB) {
+        this.db = myDB;
         this.updateMenu = initGUI();
     }
 

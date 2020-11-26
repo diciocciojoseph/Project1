@@ -5,8 +5,10 @@ import java.awt.event.ActionListener;
 
 public class FindMenu {
     private JFrame findMenu;
+    private TravProfDB db;
 
-    public FindMenu(){
+    public FindMenu(TravProfDB myDB){
+        this.db = myDB;
         this.findMenu = initMenu();
     }
 
