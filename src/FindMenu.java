@@ -1,5 +1,3 @@
-package gui;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -65,10 +63,10 @@ public class FindMenu {
                 JLabel tripCostLab = new JLabel("Trip Cost:");
                 JLabel travelTypeLab = new JLabel("Travel Type:");
                 JLabel payTypeLab = new JLabel("Payment Type:");
-                JLabel modeTransLab = new JLabel("Mode of Traavel:");
-                JLabel compNameLab = new JLabel("Company Name:");
-                JLabel rewardsIDLab = new JLabel("Rewards ID:");
-                JLabel rewardsBalLab = new JLabel("Rewards Balance:");
+                JLabel physNameLab = new JLabel("Physician's Name:");
+                JLabel physPhoLab = new JLabel("Physician's Phone Number:");
+                JLabel allergyLab = new JLabel("Allergy Type:");
+                JLabel illnessLab = new JLabel("Illness Type:");
 
                 // TextFields for Profile
                 JTextField travIDVal = new JTextField();
@@ -79,20 +77,19 @@ public class FindMenu {
                 JTextField tripCostVal = new JTextField();
                 JTextField travTypeVal = new JTextField();
                 JTextField payTypeVal = new JTextField();
-                JTextField travModeVal = new JTextField();
-                JTextField compNameVal = new JTextField();
-                JTextField rewardsIDVal = new JTextField();
-                JTextField rewardsBalVal = new JTextField();
+                JTextField physNameVal = new JTextField();
+                JTextField physPhoVal = new JTextField();
+                JTextField allergyVal = new JTextField();
+                JTextField illnessVal = new JTextField();
 
                 // Add labels, textfields, buttons to displayFrame
                 JLabel[] labels = {travelerIDLab, firstNameLab, lastNameLab,
                         addressLab, phoneLab, tripCostLab, travelTypeLab,
-                        payTypeLab, modeTransLab, compNameLab, rewardsIDLab,
-                        rewardsBalLab};
+                        payTypeLab, physNameLab, physPhoLab,
+                        allergyLab, illnessLab};
                 JTextField[] values = {travIDVal, firstNameVal, lstNameVal,
                         addrVal, phoneVal, tripCostVal, travTypeVal,
-                        payTypeVal, travModeVal, compNameVal, rewardsIDVal,
-                        rewardsBalVal};
+                        payTypeVal, physNameVal, physPhoVal, allergyVal, illnessVal};
 
                 for (int i = 0; i < labels.length; i++) {
                     displayFrame.add(labels[i]);
