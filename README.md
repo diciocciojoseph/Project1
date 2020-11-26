@@ -1,4 +1,4 @@
 # Project1
 School Project
 
-gui folder is for Project #2(extension of project #1)
+Source folder contains code for both project #1 and #2
