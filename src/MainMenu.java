@@ -5,10 +5,8 @@ import java.awt.event.ActionListener;
 
 public class MainMenu {
     JFrame menu;
-    private String fileName;
 
     public MainMenu() {
-        this.fileName = "TravelerDatabase.txt";
         this.menu = initMenu();
     }
 
@@ -21,8 +19,8 @@ public class MainMenu {
         menu.setSize(400, 500);
 
         // Initialize and connect to database
-        TravProfDB myDB = new TravProfDB(this.fileName);
-        myDB.initializeDatabase(this.fileName);
+        TravProfDB myDB = new TravProfDB("TravelerDatabase.txt");
+        myDB.initializeDatabase(myDB.getFileName());
 
         // Create labels and buttons
         JLabel titleLabel = new JLabel("Integrated Travel System");
@@ -52,29 +50,29 @@ public class MainMenu {
 
         menu.setVisible(true);
 
-        // Add event listener for select button
+        // Event listener for select button
         selectBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(createBtn.isSelected()){
-                    // System.out.println("Create Selected");
                     CreateMenu createMenu = new CreateMenu(myDB);
                     createMenu.getCreateMenu().setVisible(true);
 
                 } else if (deleteBtn.isSelected()){
-                    // System.out.println("Delete Selected");
                     DeleteMenu deleteMenu = new DeleteMenu(myDB);
                     deleteMenu.getDeleteMenu().setVisible(true);
+
                 } else if (updateBtn.isSelected()){
-                    // System.out.println("Update Selected");
                     UpdateMenu updateMenu = new UpdateMenu(myDB);
                     updateMenu.getUpdateMenu().setVisible(true);
+
                 } else if (find_displayBtn.isSelected()){
-                    // System.out.println("Find/Display Selected");
                     FindMenu findMenu = new FindMenu(myDB);
                     findMenu.getFindMenu().setVisible(true);
+
                 } else if (display_allBtn.isSelected()){
-                    // System.out.println("Display All Selected");
+                    DisplayAllMenu displayAllMenu = new DisplayAllMenu(myDB);
+                    displayAllMenu.getMenu().setVisible(true);
                 } else {
                     // System.out.println("Make Selection");
                 }

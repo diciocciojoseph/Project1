@@ -92,7 +92,28 @@ public class CreateMenu {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Profile Created Successfully!");
+                // Get input fields and construct a TravProf object, add it to the database
+                String id = idInput.getText();
+                String firstName = fNameInput.getText();
+                String lastName = lNameInput.getText();
+                String address = addrIn.getText();
+                String phone = phoneIn.getText();
+                float tripCost = Float.parseFloat(tripCostIn.getText());
+                String travelType = travTypeL[travTypeIn.getSelectedIndex()];
+                String paymentType = payTypeL[payTypeIn.getSelectedIndex()];
+                String physName = physNameIn.getText();
+                String physNumber = physPhoneIn.getText();
+                String allergy = allerL[allerIn.getSelectedIndex()];
+                String illness = illL[illIn.getSelectedIndex()];
+
+                MedCond medCond = new MedCond(physName, physNumber, allergy, illness);
+                TravProf profile = new TravProf(id, firstName, lastName, address, phone, tripCost,
+                        travelType, paymentType, medCond, id);
+                db.getTravelerList().add(profile);
+                db.writeAllTravProf(db.getFileName());
+
+                JFrame optFrame = new JFrame("Create Status");
+                JOptionPane.showMessageDialog(optFrame, "Profile Created Successfully.");
                 createMenu.dispose();
             }
         });

@@ -37,8 +37,9 @@ public class FindMenu {
 
         findMenu.setVisible(true);
 
-        // Show a popup message
-        // TODO: implement display
+        // Create a new panel that will display the traveler information if found
+        // Otherwise display a "not found" panel
+
         JOptionPane JOpt = new JOptionPane();
         JFrame displayFrame = new JFrame("Traveler Profile");
         displayFrame.setSize(800, 400);
@@ -53,8 +54,6 @@ public class FindMenu {
                 // Get input values for ID and last name
                 String travIDValue = travIDInput.getText();
                 String lstNameValue = lstNameInput.getText();
-                // Execute actions on the database
-                // TODO: retrieve from database
 
                 // Labels for Profile
                 JLabel travelerIDLab = new JLabel("Traveler ID:");
@@ -70,39 +69,46 @@ public class FindMenu {
                 JLabel allergyLab = new JLabel("Allergy Type:");
                 JLabel illnessLab = new JLabel("Illness Type:");
 
-                // TextFields for Profile
-                JTextField travIDVal = new JTextField();
-                JTextField firstNameVal = new JTextField();
-                JTextField lstNameVal = new JTextField();
-                JTextField addrVal = new JTextField();
-                JTextField phoneVal = new JTextField();
-                JTextField tripCostVal = new JTextField();
-                JTextField travTypeVal = new JTextField();
-                JTextField payTypeVal = new JTextField();
-                JTextField physNameVal = new JTextField();
-                JTextField physPhoVal = new JTextField();
-                JTextField allergyVal = new JTextField();
-                JTextField illnessVal = new JTextField();
+                // Execute actions on the database
+                TravProf profile = db.findProfile(lstNameValue, travIDValue);
 
-                // Add labels, textfields, buttons to displayFrame
-                JLabel[] labels = {travelerIDLab, firstNameLab, lastNameLab,
-                        addressLab, phoneLab, tripCostLab, travelTypeLab,
-                        payTypeLab, physNameLab, physPhoLab,
-                        allergyLab, illnessLab};
-                JTextField[] values = {travIDVal, firstNameVal, lstNameVal,
-                        addrVal, phoneVal, tripCostVal, travTypeVal,
-                        payTypeVal, physNameVal, physPhoVal, allergyVal, illnessVal};
+                if(profile == null) {
+                    // Display not found panel
+                    JFrame optFrame = new JFrame("Profile Not Found");
+                    JOptionPane.showMessageDialog(optFrame, "The profile was not found.");
 
-                for (int i = 0; i < labels.length; i++) {
-                    displayFrame.add(labels[i]);
-                    displayFrame.add(values[i]);
+                } else {
+                    // Values for Profile
+                    JLabel travelerIDVal = new JLabel(profile.getTravAgentID());
+                    JLabel firstNameVal = new JLabel(profile.getFirstName());
+                    JLabel lastNameVal = new JLabel(profile.getLastName());
+                    JLabel addressVal = new JLabel(profile.getAddress());
+                    JLabel phoneVal = new JLabel(profile.getPhone());
+                    JLabel tripCostVal = new JLabel(String.valueOf(profile.getTripCost()));
+                    JLabel travelTypeVal = new JLabel(profile.getTravelType());
+                    JLabel payTypeVal = new JLabel(profile.getPaymentType());
+                    JLabel physNameVal = new JLabel(profile.getMedCondInfo().getMdContact());
+                    JLabel physPhoVal = new JLabel(profile.getMedCondInfo().getMdPhone());
+                    JLabel allergyVal = new JLabel(profile.getMedCondInfo().getAlgType());
+                    JLabel illnessVal = new JLabel(profile.getMedCondInfo().getIllType());
+
+                    // Add labels, textfields, buttons to displayFrame
+                    JLabel[] labels = {travelerIDLab, firstNameLab, lastNameLab,
+                            addressLab, phoneLab, tripCostLab, travelTypeLab,
+                            payTypeLab, physNameLab, physPhoLab,
+                            allergyLab, illnessLab};
+
+                    JLabel[] values = {travelerIDVal, firstNameVal, lastNameVal,
+                            addressVal, phoneVal, tripCostVal, travelTypeVal,
+                            payTypeVal, physNameVal, physPhoVal, allergyVal, illnessVal};
+
+                    for (int i = 0; i < labels.length; i++) {
+                        displayFrame.add(labels[i]);
+                        displayFrame.add(values[i]);
+                    }
+                    displayFrame.add(closeBtn);
+                    displayFrame.setVisible(true);
                 }
-
-                displayFrame.add(closeBtn);
-
-                displayFrame.setVisible(true);
-
-                findMenu.dispose();
             }
         });
 

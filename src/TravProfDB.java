@@ -77,13 +77,17 @@ public class TravProfDB {
     }
 
     // Write the current contents of all traveler profiles into the file
-    public void writeAllTravProf(String fName) throws IOException{
+    public void writeAllTravProf(String fName) {
 
         // Create an object output stream, and serialize the travelers list
-            FileOutputStream f = new FileOutputStream(fileName);
+        try{
+            FileOutputStream f = new FileOutputStream(this.fileName);
             ObjectOutputStream s = new ObjectOutputStream(f);
             s.writeObject(this.travelerList);
             s.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     // Fetch all current content of DB file into traveler array
@@ -99,11 +103,14 @@ public class TravProfDB {
                 System.out.println("Database is currently empty");
                 e.printStackTrace();
             }
-
     }
 
     // Get method for travelers list
     public ArrayList<TravProf> getTravelerList() {
         return travelerList;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 }

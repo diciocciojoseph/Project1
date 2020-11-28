@@ -41,29 +41,25 @@ public class DeleteMenu {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Successfully deleted profile");
                 // Execute actions in database for deleting
                 String travProfID = travIDInput.getText();
                 String travLstName = lstNameInput.getText();
-                // TODO: delete on database
 
-                JOptionPane JOpt = new JOptionPane();
+                boolean success = db.deleteProfile(travProfID, travLstName);
                 JFrame optFrame = new JFrame("Delete Status");
-                JOpt.showMessageDialog(optFrame, "Profile has been deleted");
+                if (success) {
+                    JOptionPane.showMessageDialog(optFrame, "Profile has been deleted.");
+                } else {
+                    JOptionPane.showMessageDialog(optFrame, "Profile not found.");
+                }
                 deleteMenu.dispose();
-
             }
         });
-
         return deleteMenu;
     }
 
     public JFrame getDeleteMenu() {
         return deleteMenu;
     }
-
-
-
-
 
 }
