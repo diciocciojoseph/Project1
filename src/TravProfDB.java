@@ -87,15 +87,17 @@ public class TravProfDB {
     }
 
     // Fetch all current content of DB file into traveler array
-    public void initializeDatabase(String fName) throws IOException, ClassNotFoundException{
+    public void initializeDatabase(String fName){
 
         // Create an object input stream, read from the database into the travelers list
-            FileInputStream f = new FileInputStream(fName);
+
             try {
+                FileInputStream f = new FileInputStream(fName);
                 ObjectInputStream s = new ObjectInputStream(f);
                 this.travelerList = (ArrayList<TravProf>) s.readObject();
-            } catch (EOFException e) {
+            } catch (Exception e) {
                 System.out.println("Database is currently empty");
+                e.printStackTrace();
             }
 
     }

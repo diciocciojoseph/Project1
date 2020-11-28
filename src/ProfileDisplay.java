@@ -20,6 +20,6 @@ public class ProfileDisplay {
         menu.setLayout(new GridLayout(14, 2));
         menu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-
+        return menu;
     }
 }

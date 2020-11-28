@@ -2,20 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-
 
 public class MainMenu {
     JFrame menu;
     private String fileName;
 
-    public MainMenu() throws IOException, ClassNotFoundException {
+    public MainMenu() {
         this.fileName = "TravelerDatabase.txt";
         this.menu = initMenu();
     }
 
     // MAIN MENU
-    private JFrame initMenu() throws IOException, ClassNotFoundException {
+    private JFrame initMenu() {
         // Create JFrame for main menu
         menu = new JFrame("Traveler ITS");
         menu.setLayout(new GridLayout(7, 0));
@@ -59,26 +57,26 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(createBtn.isSelected()){
-                    System.out.println("Create Selected");
+                    // System.out.println("Create Selected");
                     CreateMenu createMenu = new CreateMenu(myDB);
                     createMenu.getCreateMenu().setVisible(true);
 
                 } else if (deleteBtn.isSelected()){
-                    System.out.println("Delete Selected");
+                    // System.out.println("Delete Selected");
                     DeleteMenu deleteMenu = new DeleteMenu(myDB);
                     deleteMenu.getDeleteMenu().setVisible(true);
                 } else if (updateBtn.isSelected()){
-                    System.out.println("Update Selected");
+                    // System.out.println("Update Selected");
                     UpdateMenu updateMenu = new UpdateMenu(myDB);
                     updateMenu.getUpdateMenu().setVisible(true);
                 } else if (find_displayBtn.isSelected()){
-                    System.out.println("Find/Display Selected");
+                    // System.out.println("Find/Display Selected");
                     FindMenu findMenu = new FindMenu(myDB);
                     findMenu.getFindMenu().setVisible(true);
                 } else if (display_allBtn.isSelected()){
-                    System.out.println("Display All Selected");
+                    // System.out.println("Display All Selected");
                 } else {
-                    System.out.println("Make Selection");
+                    // System.out.println("Make Selection");
                 }
             }
         });
@@ -86,7 +84,7 @@ public class MainMenu {
         return menu;
     }
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) {
         MainMenu gui = new MainMenu();
     }
 }
