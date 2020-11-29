@@ -208,7 +208,7 @@ public class UpdateMenu {
 
                         case 7:
                             // Allergy Type
-                            JLabel allergyLab = new JLabel("Payment Type: ");
+                            JLabel allergyLab = new JLabel("Allergy Type: ");
                             String[] allerL = {"None", "Food", "Medication", "Other"};
                             JComboBox<String> allergyTypeBox = new JComboBox<>(allerL);
                             updateFrame.add(allergyLab);
@@ -227,7 +227,7 @@ public class UpdateMenu {
 
                         case 8:
                             // Illness Type
-                            JLabel illLab = new JLabel("Payment Type: ");
+                            JLabel illLab = new JLabel("Illness Type: ");
                             String[] illL = {"None", "Heart", "Diabetes", "Asthma", "Other"};
                             JComboBox<String> illTypeBox = new JComboBox<>(illL);
                             updateFrame.add(illLab);
