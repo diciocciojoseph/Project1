@@ -115,6 +115,7 @@ public class FindMenu {
         closeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                displayFrame.getContentPane().removeAll();
                 displayFrame.dispose();
             }
         });
