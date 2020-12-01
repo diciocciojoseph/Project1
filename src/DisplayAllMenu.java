@@ -120,6 +120,8 @@ public class DisplayAllMenu {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Reset idx
+                resetIdx();
                 setID(idVal.getText());
                 createFrames();
             }
@@ -139,6 +141,10 @@ public class DisplayAllMenu {
 
     private int getIdx() {
         return idx;
+    }
+
+    private void resetIdx() {
+        this.idx = 0;
     }
 
     public void increment(){
